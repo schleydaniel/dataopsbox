@@ -1,0 +1,26 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: py-producer
+  namespace: dataopsbox
+  labels:
+    type: restapi
+spec:
+  selector:
+    matchLabels:
+      app: py-producer
+  replicas: 1
+  template:
+    metadata:
+      name: py-producer-tmpl
+      labels:
+        app: py-producer
+    spec:
+      containers:
+        - name: py-producer
+          image: py-producer:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5050

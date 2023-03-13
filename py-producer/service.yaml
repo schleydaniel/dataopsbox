@@ -1,0 +1,16 @@
+# service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: py-producer-svc
+  namespace: dataopsbox
+spec:
+  clusterIP: "10.106.8.84"
+  type: LoadBalancer
+  selector:
+    app: py-producer
+  ports:
+    - protocol: "TCP"
+      port: 5050
+      targetPort: 5050
