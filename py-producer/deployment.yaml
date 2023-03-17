@@ -24,3 +24,10 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 5050
+          env:
+            - name: KAFKA_BOOTSTRAP
+              value: "10.106.7.84:9092"
+            - name: PRODUCER_PORT
+              value: "5050"
+            - name: PRODUCER_WORKERS
+              value: "5"
