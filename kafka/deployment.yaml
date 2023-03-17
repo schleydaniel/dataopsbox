@@ -1,0 +1,39 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-kraft
+  namespace: dataopsbox
+  labels:
+    type: restapi
+spec:
+  selector:
+    matchLabels:
+      app: kafka-kraft
+  replicas: 1
+  template:
+    metadata:
+      name: kafka-kraft-tmpl
+      labels:
+        app: kafka-kraft
+    spec:
+      containers:
+        - name: kafka-kraft
+          image: kafka-kraft:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 9092
+              name: internal
+            - containerPort: 9094
+              name: external
+          env:
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://10.106.7.84:9092"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "PLAINTEXT"
+            
