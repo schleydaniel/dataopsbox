@@ -14,13 +14,13 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
+def home():
     o = urlparse(request.base_url)
     app.logger.info("Request from: {}, {}, {}".format(o.hostname, o.port, o.path))
     return render_template(
         'home.html',
         title="DataOpsBox",
-        description="Container Based Data Ops Sandbox"
+        description="Container based data environment for data ops showcases"
     )
 
 
