@@ -13,6 +13,7 @@
     {% if results|length < 1 %}
     <form method="post" action="/produce">
         <input name="count"/>
+        <input name="topic"/>
         <input type="submit" value="Start Producing" name="start"/>
     </form>
     {% endif %}

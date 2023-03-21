@@ -51,12 +51,14 @@ def produce_run():
     kafka_bootstrap = os.environ.get("KAFKA_BOOTSTRAP")
     workers = os.environ.get("PRODUCER_WORKERS")
     total_count = request.form['count']
+    topic = request.form['topic']
     app.logger.info('Total count set to: ' + str(total_count))
     count = int(int(total_count) / int(workers))
     threads = []
-    app.logger.info('Sending {} messages via {} worker threads ({} each).'.format(total_count, workers, count))
+    app.logger.info('Sending {} messages to topic: {} via {} worker threads ({} each).'.format(total_count, topic,
+                                                                                               workers, count))
     for i in range(0, int(workers)):
-        thread = DBKafkaProducer("quickstart-events", kafka_bootstrap, count)
+        thread = DBKafkaProducer(topic, kafka_bootstrap, count)
         thread.daemon = True
         thread.start()
         threads.append(str(thread))
