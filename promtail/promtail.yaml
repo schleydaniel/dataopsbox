@@ -96,6 +96,32 @@ data:
             - __meta_kubernetes_pod_uid
             - __meta_kubernetes_pod_container_name
           target_label: __path__
+    - job_name: kafka
+      kafka:
+        brokers:
+        - 10.106.7.84:9092
+        topics:
+        - ^promtail.*
+        - test-topic-*
+        labels:
+          job: kafka
+      relabel_configs:
+          - action: replace
+            source_labels:
+              - __meta_kafka_topic
+            target_label: topic
+          - action: replace
+            source_labels:
+              - __meta_kafka_partition
+            target_label: partition
+          - action: replace
+            source_labels:
+              - __meta_kafka_group_id
+            target_label: group
+          - action: replace
+            source_labels:
+              - __meta_kafka_message_key
+            target_label: message_key
 
 --- # Clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
