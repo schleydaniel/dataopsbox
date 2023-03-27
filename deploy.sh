@@ -22,3 +22,16 @@ kubectl apply -f py-producer/service.yaml
 
 kubectl apply -f kafka/deployment.yaml
 kubectl apply -f kafka/service.yaml
+
+kubectl apply -f grafana/volume.yaml
+kubectl apply -f grafana/deployment.yaml
+kubectl apply -f grafana/service.yaml
+
+kubectl apply -f prometheus/clusterRole.yaml
+kubectl apply -f prometheus/deployment.yaml
+kubectl apply -f prometheus/service.yaml
+
+kubectl apply -f loki/deployment.yaml
+kubectl apply -f loki/service.yaml
+
+kubectl apply -f promtail/promtail.yaml

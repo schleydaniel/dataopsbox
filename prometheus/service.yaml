@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-svc
+  namespace: dataopsbox
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9090'
+spec:
+  clusterIP: "10.106.2.84"
+  selector: 
+    app: prometheus-server
+  type: LoadBalancer  
+  ports:
+    - port: 8080
+      targetPort: 9090 
+      nodePort: 30000

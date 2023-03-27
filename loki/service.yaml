@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki-svc
+  namespace: dataopsbox
+spec:
+  clusterIP: "10.106.3.84"
+  selector: 
+    app: loki-server
+  type: LoadBalancer  
+  ports:
+    - port: 3100
+      targetPort: 3100 
+      nodePort: 31000
