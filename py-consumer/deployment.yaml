@@ -1,0 +1,32 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: py-consumer
+  namespace: dataopsbox
+  labels:
+    type: restapi
+spec:
+  selector:
+    matchLabels:
+      app: py-consumer
+  replicas: 1
+  template:
+    metadata:
+      name: py-consumer-tmpl
+      labels:
+        app: py-consumer
+    spec:
+      containers:
+        - name: py-consumer
+          image: py-consumer:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5050
+          env:
+            - name: KAFKA_BOOTSTRAP
+              value: "10.106.7.84:9092"
+            - name: CONSUMER_PORT
+              value: "5051"
+

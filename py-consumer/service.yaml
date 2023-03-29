@@ -1,0 +1,16 @@
+# service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: py-consumer-svc
+  namespace: dataopsbox
+spec:
+  clusterIP: "10.106.9.84"
+  type: LoadBalancer
+  selector:
+    app: py-consumer
+  ports:
+    - protocol: "TCP"
+      port: 5051
+      targetPort: 5051

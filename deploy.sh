@@ -35,3 +35,6 @@ kubectl apply -f loki/deployment.yaml
 kubectl apply -f loki/service.yaml
 
 kubectl apply -f promtail/promtail.yaml
+
+kubectl apply -f py-consumer/deployment.yaml
+kubectl apply -f py-consumer/service.yaml
