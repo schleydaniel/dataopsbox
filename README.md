@@ -8,13 +8,13 @@ Local K8s cluster orchestrating Docker containers with Minikube  to trial and de
 
 ```mermaid
 graph LR;
-    A(Py Producer) -- run --> B((Worker 1));
-    A(Py Producer) -- run --> C((Worker ...));
-    A(Py Producer) -- run --> D((Worker n));
+    A(Py-Producer) -- run --> B((Worker 1));
+    A(Py-Producer) -- run --> C((Worker ...));
+    A(Py-Producer) -- run --> D((Worker n));
     B((Worker 1)) -- produce --> E{Kafka};
     C((Worker ...)) -- produce --> E{Kafka};
     D((Worker n)) -- produce --> E{Kafka};
-    E{Kafka} -- consume --> F(J-Consumer);
+    E{Kafka} -- consume --> F(Py-Consumer);
 ```
 
 ## Getting started
