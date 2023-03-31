@@ -27,18 +27,23 @@ def index():
 @sock.route('/echo')
 def echo(sock):
     app.logger.info('Socket connected')
+    consumer = KafkaConsumer(group_id='consumer-1',
+                             bootstrap_servers=BOOTSTRAP_SERVERS)
+    app.logger.info('consumer: {}'.format(str(consumer.topics())))
+    tp = TopicPartition(TOPIC_NAME, 0)
+    # register to the topic
+    consumer.assign([tp])
+    previous_end = None
     while True:
-        consumer = KafkaConsumer(group_id='consumer-1',
-                                 bootstrap_servers=BOOTSTRAP_SERVERS)
-        app.logger.info('consumer: {}'.format(str(consumer.topics())))
-        tp = TopicPartition(TOPIC_NAME, 0)
-        # register to the topic
-        consumer.assign([tp])
         # obtain the last offset value
         consumer.seek_to_end(tp)
         last_offset = consumer.position(tp)
         app.logger.info('Last offset: {}'.format(str(last_offset)))
-        consumer.seek_to_beginning(tp)
+        if previous_end is None:
+            consumer.seek_to_beginning(tp)
+        else:
+            consumer.seek_to_beginning(previous_end)
+        previous_end = last_offset
         for message in consumer:
             app.logger.info('Print msg: {}'.format(message.value.decode('utf-8')))
             data = message.value.decode('utf-8')
