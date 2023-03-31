@@ -1,0 +1,18 @@
+global:
+templates:
+  - '/etc/alertmanager-templates/*.tmpl'
+route:
+  receiver: slack_demo
+  group_by: ['alertname', 'priority']
+  group_wait: 10s
+  repeat_interval: 30m
+  routes:
+    - receiver: slack_demo
+      matchers: [ severity = slack ]
+      group_wait: 10s
+      repeat_interval: 1m
+receivers:
+  - name: slack_demo
+    slack_configs:
+      - api_url: https://hooks.slack.com/services/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
+        channel: '#on-call'

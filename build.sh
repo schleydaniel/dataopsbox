@@ -17,3 +17,6 @@ docker tag grafana:0.1 grafana:latest
 
 docker build -t loki:0.1 ./loki/
 docker tag loki:0.1 loki:latest
+
+docker build -t alertmanager:0.1 ./alertmanager/
+docker tag alertmanager:0.1 alertmanager:latest

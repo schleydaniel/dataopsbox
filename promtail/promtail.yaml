@@ -101,8 +101,8 @@ data:
         brokers:
         - 10.106.7.84:9092
         topics:
-        - ^promtail.*
         - test-topic-*
+        - telemetry-*
         labels:
           job: kafka
       relabel_configs:
