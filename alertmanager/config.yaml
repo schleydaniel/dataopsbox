@@ -14,5 +14,5 @@ route:
 receivers:
   - name: slack_demo
     slack_configs:
-      - api_url: https://hooks.slack.com/services/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
+      - api_url: <KEY-INVALIDATED>
         channel: '#on-call'
