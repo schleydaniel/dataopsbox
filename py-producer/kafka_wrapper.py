@@ -1,3 +1,5 @@
+import hashlib
+import json
 import logging
 import threading
 import time
@@ -26,14 +28,20 @@ class DBKafkaProducer(Thread):
             producer = KafkaProducer(bootstrap_servers=[self.kafka_bootstrap])
         thread = threading.current_thread()
         for i in range(0, int(self.count)):
-            message = thread.name + '-' + str(i) + ';' + str(time.time()) + ';' + str(datetime.now())
+            key = str(i).encode()
+            message = {'deviceId': hashlib.md5(bytes(thread.name, 'utf-8')).hexdigest(), 'timestamp': str(time.time()),
+                       'key': 'POSITION', 'value': '13.330059,74.74467,-12.0'}
+
+            # Encode the dictionary into a JSON Byte Array
+            data = json.dumps(message, default=str).encode('utf-8')
+
             # Asynchronous by default
-            future = producer.send(self.topic, key=b'ts', value=bytes(message, 'utf-8'))
+            future = producer.send(self.topic, key=key, value=data)
             # Block for 'synchronous' sends
             try:
                 record_metadata = future.get(timeout=10)
                 # Successful result returns assigned partition and offset
-                self.logger.info(record_metadata.topic + ":" + message)
+                self.logger.info(record_metadata.topic + ":" + str(data))
             except KafkaError:
                 # Decide what to do if produce request failed...
                 self.logger.error("Error")
@@ -42,6 +50,5 @@ class DBKafkaProducer(Thread):
         end = datetime.now()
         self.logger.info('Duration ' + self.name + ' : ' + str((end - start).seconds) + ' seconds')
 
-    def join(self):
+    def join(self, **kwargs):
         Thread.join(self)
-        return self._return
